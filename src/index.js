@@ -15,20 +15,30 @@ const App = () => {
 
 //클래스형 컴포넌트로 리팩토링
 class App extends React.Component {
+  /* constructor을 활용한 state 값 초기화
   constructor(props) {
     super(props);
-
     // This is the only time we do direct assignment to this.state
     this.state = { lat: null, errorMessage: "" }; //lat = 위도
+  }*/
 
+  // state 값 리팩토링(약어)
+  state = { lat: null, errorMessage: "" };
+
+  componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(
+      //리팩토링
+      (position) => this.setState({ lat: position.coords.latitude }),
+      (err) => this.setState({ errorMessage: err.message })
+
+      /*초기 코드
       (postion) => {
         // we called setState!!
         this.setState({ lat: postion.coords.latitude });
       },
       (err) => {
         this.setState({ errorMessage: err.message });
-      }
+      }*/
     );
   }
 
