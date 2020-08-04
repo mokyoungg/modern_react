@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDom from "react-dom";
+import SeasonDisplay from "./SeasonDisplay";
+import Spinner from "./Spinner";
 
 /*
 const App = () => {
@@ -42,17 +44,34 @@ class App extends React.Component {
     );
   }
 
-  //React says we have to define render!!
-  render() {
+  // render 부분 리팩터링(render시, 붉은색 테두리가 있길 원할 때
+  // 모든 조건문에 <div>를 만들고 같은 className을 줄 필요가 없다.)
+  renderContent() {
     if (this.state.errorMessage && !this.state.lat) {
       return <div>Error: {this.state.errorMessage} </div>;
     }
 
     if (!this.state.errorMessage && this.state.lat) {
-      return <div>위도: {this.state.lat}</div>;
+      return <SeasonDisplay lat={this.state.lat} />;
     }
 
-    return <div>Loading!</div>;
+    return <Spinner message="Please accept location request" />;
+  }
+
+  //React says we have to define render!!
+  render() {
+    // 리팩터링(render)
+    return <div className="border red">{this.renderContent()}</div>;
+    /*처음 코드
+    if (this.state.errorMessage && !this.state.lat) {
+      return <div>Error: {this.state.errorMessage} </div>;
+    }
+
+    if (!this.state.errorMessage && this.state.lat) {
+      return <SeasonDisplay lat={this.state.lat} />;
+    }
+
+    return <Spinner message="Please accept location request" />;*/
   }
 }
 
