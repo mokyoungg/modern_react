@@ -24,7 +24,7 @@ const Convert = ({ language, text }) => {
           params: {
             q: debouncedText, //번역하려는 것
             target: language.value, //번역하려는 언어
-            key: "AIzaSyCHUCmpR7cT_yDFHC98CZJy2LTms-IwDlM", //유료 api key, 다른곳에선 사용이 안됨
+            key: "구글 번역 API KEY", //유료 api key, 다른곳에선 사용이 안됨
           },
         }
       );
