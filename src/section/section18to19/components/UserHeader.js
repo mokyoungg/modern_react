@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-//import { fetchUser } from "../actions";
+import { fetchUser } from "../actions";
 
 class UserHeader extends React.Component {
   /* 다음의 코드는 서버 요청이 너무 많다.(중복요청이 많다.),
@@ -30,4 +30,4 @@ const mapStateToProps = (state) => {
   return { users: state.users };
 };*/
 
-export default connect(mapStateToProps)(UserHeader);
+export default connect(mapStateToProps, { fetchUser })(UserHeader);
