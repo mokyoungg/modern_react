@@ -1,7 +1,31 @@
 import React from "react";
-import { Field, formValues, reduxForm } from "redux-form";
+import { connect } from "react-redux";
+import { createStream } from "../../actions";
+import StreamForm from "./StreamForm";
 
 class StreamCreate extends React.Component {
+  onSubmit = (formValues) => {
+    //event.preventDefault();
+    this.props.createStream(formValues);
+  };
+
+  render() {
+    //console.log(this.props);
+    return (
+      <div>
+        <h3>Create a Stream</h3>
+        <StreamForm onSubmit={this.onSubmit} />
+      </div>
+    );
+  }
+}
+
+export default connect(null, { createStream })(StreamCreate);
+
+// StreamCreate와 StreamEdit 컴포넌트과 매우 비슷하여
+// StreamForm 컴포넌트를 제작, 리팩토링 하였다.
+// 아래는 기존의 StreamCreate 코드
+/*class StreamCreate extends React.Component {
   renderError({ error, touched }) {
     if (touched && error) {
       return (
@@ -26,7 +50,8 @@ class StreamCreate extends React.Component {
     );
   };
 
-  /* renderInput(formProps) {
+  //기존 코드
+   renderInput(formProps) {
     //console.log(formProps);
     return (
       <input
@@ -34,12 +59,12 @@ class StreamCreate extends React.Component {
         value={formProps.input.value}
       />
     );
-  }*/
-
-  onSubmit(formVlaues) {
-    //event.preventDefault();
-    console.log(formVlaues);
   }
+
+  onSubmit = (formValues) => {
+    //event.preventDefault();
+    this.props.createStream(formValues);
+  };
 
   render() {
     //console.log(this.props);
@@ -74,7 +99,19 @@ const validate = (formValues) => {
   return errors;
 };
 
-export default reduxForm({
+const fromWrapped = reduxForm({
   form: "streamCreate",
   validate,
 })(StreamCreate);
+
+//코드 리팩토링
+export default connect(null, { createStream })(fromWrapped);
+
+// connect와 reduxForm 함께 쓰기
+export default connect()(
+  reduxForm({
+    form: "streamCreate",
+    validate,
+  })(StreamCreate)
+);
+*/
