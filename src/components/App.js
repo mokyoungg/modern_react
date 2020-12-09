@@ -1,60 +1,37 @@
 import React from "react";
-import { Router, Route, Switch } from "react-router-dom";
-import StreamCreate from "./streams/StreamCreate";
-import StreamEdit from "./streams/StreamEdit";
-import StreamDelete from "./streams/StreamDelete";
-import StreamList from "./streams/StreamList";
-import StreamShow from "./streams/StreamShow";
-import Header from "./Header";
-import history from "../history";
+import UserCreate from "./UserCreate";
+import LanguageContext from "../context/LanguageContext";
+import ColorContext from "../context/ColorContext";
 
-// Router 외부에서 Link 문제가 있을 수 있음.
-// history를 사용함으로써 browserRouter를 사용할 수 없음.
+class App extends React.Component {
+  state = { language: "english" };
 
-const App = () => {
-  return (
-    <div className="ui container">
-      <Router history={history}>
+  onLanguageChange = (language) => {
+    this.setState({ language });
+  };
+
+  render() {
+    return (
+      <div className="ui container">
         <div>
-          <Header />
-          <Switch>
-            <Route path="/" exact component={StreamList} />
-            <Route path="/streams/new" exact component={StreamCreate} />
-            <Route path="/streams/edit/:id" exact component={StreamEdit} />
-            <Route path="/streams/delete/:id" exact component={StreamDelete} />
-            <Route path="/streams/:id" exact component={StreamShow} />
-          </Switch>
+          Select a language:
+          <i
+            className="flag us"
+            onClick={() => this.onLanguageChange("english")}
+          />
+          <i
+            className="flag nl"
+            onClick={() => this.onLanguageChange("dutch")}
+          />
         </div>
-      </Router>
-    </div>
-  );
-};
+        <LanguageContext.Provider value={this.state.language}>
+          <ColorContext.Provider value="red">
+            <UserCreate />
+          </ColorContext.Provider>
+        </LanguageContext.Provider>
+      </div>
+    );
+  }
+}
 
 export default App;
-
-/* Router 예시
-const PageOne = () => {
-  return <div>PageOne</div>;
-};
-
-const PageTwo = () => {
-  return (
-    <div>
-      PageTwo<button>Click Me</button>
-    </div>
-  );
-};
-
-const App = () => {
-  return (
-    <div>
-      <BrowserRouter>
-        <div>
-          <Route path="/" exact component={PageOne} />
-          <Route path="/pagetwo" component={PageTwo} />
-        </div>
-      </BrowserRouter>
-    </div>
-  );
-};
-*/
